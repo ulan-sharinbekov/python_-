@@ -1,0 +1,9 @@
+{
+  "Monday": ["math", "geography", "algebra"],
+  "Tuesday": ["Chemistry", "Geography", "KZ literture", "Physics"],
+  "Wednesday": ["Physical Education", "Algebra"],
+  "Student": {
+    "name": "Derbes",
+    "surname": "Utebaliyev"
+  }
+}
