@@ -11,6 +11,8 @@ class Dog:
     #     self.tricks.append(trick)
 
 dog1 = Dog("Sharik", "Alabai")
+dog1.temperature = 10
+# print(dog1.temperature)
 dog2 = Dog("Simba", "Alabai")
 dog3 = Dog("Laika", "Alabai")
 print(dog1.nomer)
