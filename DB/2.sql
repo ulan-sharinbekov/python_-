@@ -1,0 +1,1 @@
+INSERT INTO student VALUES(1, "Derbes", "Utebaliyev", 4);
