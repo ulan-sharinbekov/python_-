@@ -1,4 +1,8 @@
-from db import Genre, Cinema, Film, fk_on
+from db import Genre, User, Film, fk_on
+from tkinter import *
+from tkinterUser import reg_window, log_window
+from tkinterFilms import film_window
+
 
 def convertToBinaryData(filename):
     # Convert digital data to binary format
@@ -11,20 +15,47 @@ def write_file(data, filename):
     with open(filename, 'wb') as file:
         file.write(data)
 
-path = "cinema.sql"
+path = "kinopoisk.sql"
 fk_on()
-# genres = Genre(path)
-# cinemas = Cinema(path)
+genres = Genre(path)
 films = Film(path)
+users = User(path)
+films.get_films()
 
-# img = convertToBinaryData("300x450.jpg")
-# print(img)
+window = Tk()
+window.geometry("1000x700")
+
+film_window(window, films)
+
+# def login():
+#     log_window(window, users)
+#
+# def registr():
+#     reg_window(window, users)
+#
+# log = Button(window, text="Log In", command=login)
+# log.place(x=300, y=400)
+# reg = Button(window, text="Sign Up", command=registr)
+# reg.place(x=600, y=400)
+
+
+window.mainloop()
+
+# genres.create_table()
 # films.create_table()
-# films.create_film("Перевозчик", "Перевозя очередную посылку, Фрэнк вынужден нарушить привычные правила. Джейсон Стэйтем в скоростном роуд-муви",
-#                     7, 2,  img )
-data = films.get_films()
-img = data[0][5]
-write_file(img, "img.jpg")
+# users.create_table()
+
+
+
+
+# img = convertToBinaryData("mech.jpg")
+# print(img)
+# # films.create_table()
+# films.create_film("Механик ", "Джейсон Стэйтем мстит за лучшего друга",
+#                     6, 2,  img )
+# data = films.get_films()
+# img = data[1][5]
+# write_file(img, "img.jpg")
 #
 # genres.create_table()
 #

@@ -43,35 +43,6 @@ class Genre:
         print(data)
 
 
-class Cinema:
-    def __init__(self, path):
-        self.connection = create_connection(path)
-
-    def create_table(self):
-        cursor = self.connection.cursor()
-        cursor.execute("""
-        CREATE TABLE cinema(
-            id INTEGER primary key,
-            name VARCHAR(250),
-            city VARCHAR(250),
-            rooms INTEGER
-        )
-        """)
-        print("TABLE cinema CREATED")
-
-    def create_cinema(self, name, city, rooms):
-        cursor = self.connection.cursor()
-        cursor.execute(f"INSERT INTO cinema(name, city, rooms) VALUES('{name}', '{city}', {rooms})")
-        self.connection.commit()
-        print("VALUES INSERTED")
-
-    def get_cinemas(self):
-        cursor = self.connection.cursor()
-        cursor.execute("SELECT * FROM cinema")
-        data = cursor.fetchall()
-        print(data)
-
-
 class Film:
     def __init__(self, path):
         self.connection = create_connection(path)
@@ -102,5 +73,39 @@ class Film:
     def get_films(self):
         cursor = self.connection.cursor()
         cursor.execute("SELECT * FROM film")
+        data = cursor.fetchall()
+        print(data)
+        return data
+
+
+class User:
+    def __init__(self, path):
+        self.connection = create_connection(path)
+
+    def create_table(self):
+        cursor = self.connection.cursor()
+        cursor.execute("""
+        CREATE TABLE user(
+            id INTEGER primary key,
+            firstname VARCHAR(50),
+            lastname VARCHAR(50),
+            username VARCHAR(50) UNIQUE,
+            email VARCHAR(100) UNIQUE,
+            password VARCHAR(50)
+        );
+        """)
+        print("TABLE user CREATED")
+
+    def registration(self, firstname, lastname, username, email, password):
+
+        cursor = self.connection.cursor()
+        sql = '''INSERT INTO user(firstname, lastname, username, email, password) VALUES(?, ?, ?, ?, ?);'''
+        cursor.execute(sql, [firstname, lastname, username, email, password])
+        self.connection.commit()
+        print("VALUES INSERTED")
+
+    def login(self, username, password):
+        cursor = self.connection.cursor()
+        cursor.execute(f"SELECT * FROM user WHERE(username=='{username}' and password == '{password}')")
         data = cursor.fetchall()
         return data
