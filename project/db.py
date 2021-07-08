@@ -41,6 +41,7 @@ class Genre:
         cursor.execute("SELECT * FROM genre")
         data = cursor.fetchall()
         print(data)
+        return data
 
 
 class Film:
@@ -72,11 +73,17 @@ class Film:
 
     def get_films(self):
         cursor = self.connection.cursor()
-        cursor.execute("SELECT * FROM film")
+        cursor.execute("SELECT f.*, g.title as genre_title FROM film as f INNER JOIN genre as g ON f.genre_id == g.id")
         data = cursor.fetchall()
         print(data)
         return data
 
+    def get_films_by_genre(self, id):
+        cursor = self.connection.cursor()
+        cursor.execute(f"SELECT f.*, g.title as genre_title FROM film as f INNER JOIN genre as g ON f.genre_id == g.id WHERE f.genre_id = {id}")
+        data = cursor.fetchall()
+        print(data)
+        return data
 
 class User:
     def __init__(self, path):

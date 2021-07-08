@@ -1,49 +1,26 @@
-from db import Genre, User, Film, fk_on
+from db import fk_on
 from tkinter import *
 from tkinterUser import reg_window, log_window
-from tkinterFilms import film_window
+from db_init import users
 
-
-def convertToBinaryData(filename):
-    # Convert digital data to binary format
-    with open(filename, 'rb') as file:
-        blobData = file.read()
-    return blobData
-
-def write_file(data, filename):
-    # Convert binary data to proper format and write it on Hard Disk
-    with open(filename, 'wb') as file:
-        file.write(data)
-
-path = "kinopoisk.sql"
 fk_on()
-genres = Genre(path)
-films = Film(path)
-users = User(path)
-films.get_films()
 
 window = Tk()
-window.geometry("1000x700")
+window.geometry("1300x700")
 
-film_window(window, films)
+def login():
+    log_window(window, users)
 
-# def login():
-#     log_window(window, users)
-#
-# def registr():
-#     reg_window(window, users)
-#
-# log = Button(window, text="Log In", command=login)
-# log.place(x=300, y=400)
-# reg = Button(window, text="Sign Up", command=registr)
-# reg.place(x=600, y=400)
+def registr():
+    reg_window(window, users)
+
+log = Button(window, text="Log In", command=login)
+log.place(x=300, y=400)
+reg = Button(window, text="Sign Up", command=registr)
+reg.place(x=600, y=400)
 
 
 window.mainloop()
-
-# genres.create_table()
-# films.create_table()
-# users.create_table()
 
 
 

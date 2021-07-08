@@ -1,5 +1,6 @@
 from tkinter import *
-
+from tkinterFilms import film_window
+from db_init import films
 
 def reg_window(window, user_table):
     def back():
@@ -24,7 +25,7 @@ def reg_window(window, user_table):
 
 
 
-    display = Frame(window, height=700, width=1000)
+    display = Frame(window, height=700, width=1300)
     display.place(x=0, y=0)
 
 
@@ -83,6 +84,7 @@ def log_window(window, user_table):
             user = user_table.login(un, ps)
             if user:
                 errlbl.config(text="OK", fg="GREEN")
+                film_window(window, films)
             else:
                 errlbl.config(text="User doesn't exist", fg="RED")
         else:
