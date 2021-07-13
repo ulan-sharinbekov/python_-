@@ -84,13 +84,13 @@ def log_window(window, user_table):
             user = user_table.login(un, ps)
             if user:
                 errlbl.config(text="OK", fg="GREEN")
-                film_window(window, films)
+                film_window(window, films, 0)
             else:
                 errlbl.config(text="User doesn't exist", fg="RED")
         else:
             errlbl.config(text="ALL FIELDS ARE REQUIRED", fg="RED")
 
-    display = Frame(window, height=700, width=1000)
+    display = Frame(window, height=700, width=1000, bg="GREEN")
     display.place(x=0, y=0)
 
     back = Button(display, text="back", font=("Gotham", "15"), command=back)

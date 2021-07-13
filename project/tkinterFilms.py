@@ -1,8 +1,9 @@
 from tkinter import *
 from PIL import ImageTk, Image
 from db_init import write_file, genresTable, films
+from tkinterCreate import create_genre_page
 
-def film_window(window, film_table):
+def film_window(window, film_table, offset):
 
     def back():
         display.destroy()
@@ -10,7 +11,13 @@ def film_window(window, film_table):
     def open_genre_page():
         genre_window(window, genresTable)
 
-    display = Frame(window, height = 700, width=1300)
+    def open_next():
+        film_window(window, film_table, offset+2)
+
+    def create_genre():
+        create_genre_page(window)
+
+    display = Frame(window, height = 700, width=1300, bg="GREEN")
     display.place(x=0, y=0)
     baseX = 100
     baseY = 100
@@ -20,6 +27,13 @@ def film_window(window, film_table):
 
     genres = Button(display, text="genres", font=("Gotham", "15"), command=open_genre_page)
     genres.place(x=100, y=10)
+
+    createGenre = Button(display, text="Create Genre", font=("Gotham", "15"), command=create_genre)
+    createGenre.place(x=200, y=10)
+
+    # сделать prevPage
+    nextPage = Button(display, text="next", font=("Gotham", "15"), command=open_next)
+    nextPage.place(x=1000, y=600)
 
     def show_film(x, y, id, name, descr, rating, genre_id, photo, genre_title):
         namelbl = Label(display, text=name, font=("Gotham", "12"))
@@ -42,7 +56,7 @@ def film_window(window, film_table):
         label1.image = test
         label1.place(x=x+10, y=y)
 
-    films = film_table.get_films()
+    films = film_table.get_films(offset)
     for film in films:
         id = film[0]
         name = film[1]
@@ -67,11 +81,12 @@ def genre_window(window, genre_table):
     back = Button(display, text="back", font=("Gotham", "15"), command=back)
     back.place(x=20, y=10)
 
+
     def show_genre(x, y, id, name, descr):
 
         def get_films_by_genre():
-            filmslist = films.get_films_by_genre(id)
-            filmlist_window(window, filmslist)
+            filmslist = films.get_films_by_genre(id, 0)
+            filmlist_window(window, filmslist, id, 0)
         idlbl = Label(display, text=str(id), font=("Gotham", "12"))
         idlbl.place(x=x + 90, y=y + 10)
 
@@ -97,12 +112,17 @@ def genre_window(window, genre_table):
         show_genre(baseX, baseY, id, name, descr)
         baseY+=60
 
-def filmlist_window(window, filmlist):
+def filmlist_window(window, filmlist, genre_id, offset):
     def back():
         display.destroy()
 
     def open_genre_page():
         genre_window(window, genresTable)
+
+    def open_next():
+        global films
+        filmsList = films.get_films_by_genre(genre_id, offset+2 )
+        filmlist_window(window, filmsList, genre_id, offset+2)
 
     display = Frame(window, height = 700, width=1300)
     display.place(x=0, y=0)
@@ -114,6 +134,10 @@ def filmlist_window(window, filmlist):
 
     genres = Button(display, text="genres", font=("Gotham", "15"), command=open_genre_page)
     genres.place(x=100, y=10)
+
+    # сделать prevPage
+    nextPage = Button(display, text="next", font=("Gotham", "15"), command=open_next)
+    nextPage.place(x=1000, y=600)
 
     def show_film(x, y, id, name, descr, rating, genre_id, photo, genre_title):
         namelbl = Label(display, text=name, font=("Gotham", "12"))

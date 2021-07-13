@@ -11,7 +11,7 @@ def create_connection(path):
     return connection
 
 def fk_on():
-    connection = create_connection("cinema.sql")
+    connection = create_connection("kinopoisk.sql")
     cursor = connection.cursor()
     cursor.execute("PRAGMA foreign_keys = ON")
 
@@ -71,16 +71,16 @@ class Film:
         self.connection.commit()
         print("VALUES INSERTED")
 
-    def get_films(self):
+    def get_films(self, offset):
         cursor = self.connection.cursor()
-        cursor.execute("SELECT f.*, g.title as genre_title FROM film as f INNER JOIN genre as g ON f.genre_id == g.id")
+        cursor.execute(f"SELECT f.*, g.title as genre_title FROM film as f INNER JOIN genre as g ON f.genre_id == g.id LIMIT 2 OFFSET {offset}")
         data = cursor.fetchall()
         print(data)
         return data
 
-    def get_films_by_genre(self, id):
+    def get_films_by_genre(self, id, offset):
         cursor = self.connection.cursor()
-        cursor.execute(f"SELECT f.*, g.title as genre_title FROM film as f INNER JOIN genre as g ON f.genre_id == g.id WHERE f.genre_id = {id}")
+        cursor.execute(f"SELECT f.*, g.title as genre_title FROM film as f INNER JOIN genre as g ON f.genre_id == g.id WHERE f.genre_id = {id} LIMIT 2 OFFSET {offset}")
         data = cursor.fetchall()
         print(data)
         return data

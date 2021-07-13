@@ -1,10 +1,13 @@
 from db import fk_on
 from tkinter import *
 from tkinterUser import reg_window, log_window
-from db_init import users
+from db_init import users, films, convertToBinaryData
+
 
 fk_on()
 
+
+# films.get_films(2)
 window = Tk()
 window.geometry("1300x700")
 
@@ -21,8 +24,8 @@ reg.place(x=600, y=400)
 
 
 window.mainloop()
-
-
+#
+#
 
 
 # img = convertToBinaryData("mech.jpg")
@@ -47,4 +50,8 @@ window.mainloop()
 # cinemas.create_cinema("Kinopark", "Almaty", 16)
 
 # cinemas.get_cinemas()
+#
+# img = convertToBinaryData("wife.jpg")
+# films.create_film('Телохранитель жены киллера (2021)', 'Жизнь здорово потрепала нервишки Майкла Брайса, так что с карьерой телохранителя он решил завязать. ',
+#                   6, 2, img)
 
