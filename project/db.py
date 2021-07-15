@@ -85,6 +85,14 @@ class Film:
         print(data)
         return data
 
+    def get_exact_film(self, id):
+        cursor = self.connection.cursor()
+        cursor.execute(
+            f"SELECT f.*, g.title as genre_title FROM film as f INNER JOIN genre as g ON f.genre_id == g.id WHERE f.id={id}")
+        data = cursor.fetchall()
+        print(data)
+        return data[0]
+
 class User:
     def __init__(self, path):
         self.connection = create_connection(path)
@@ -114,5 +122,37 @@ class User:
     def login(self, username, password):
         cursor = self.connection.cursor()
         cursor.execute(f"SELECT * FROM user WHERE(username=='{username}' and password == '{password}')")
+        data = cursor.fetchall()
+        return data
+
+class Comment:
+    def __init__(self, path):
+        self.connection = create_connection(path)
+
+    def create_table(self):
+        cursor = self.connection.cursor()
+        cursor.execute("""
+               CREATE TABLE comment(
+                    id INTEGER primary key,
+                    user_id INTEGER,
+                    film_id INTEGER,
+                    content VARCHAR(150),
+                    date VARCHAR(40),
+                    FOREIGN KEY(user_id) REFERENCES user(id),
+                    FOREIGN KEY(film_id) REFERENCES film(id)
+               );
+               """)
+        print("TABLE comment CREATED")
+
+    def create_comment(self, user_id, film_id, content, date):
+        cursor = self.connection.cursor()
+        sql = '''INSERT INTO comment(user_id, film_id, content, date) VALUES(?, ?, ?, ?);'''
+        cursor.execute(sql, [user_id, film_id, content, date])
+        self.connection.commit()
+        print("VALUES INSERTED")
+
+    def get_film_comment(self, film_id):
+        cursor = self.connection.cursor()
+        cursor.execute(f"SELECT c.*, u.username FROM comment as c INNER JOIN user as u ON c.user_id == u.id WHERE film_id=={film_id}")
         data = cursor.fetchall()
         return data

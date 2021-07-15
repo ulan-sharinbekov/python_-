@@ -1,4 +1,4 @@
-from db import Genre, Film, User
+from db import Genre, Film, User, Comment
 
 path = "kinopoisk.sql"
 
@@ -18,3 +18,11 @@ def write_file(data, filename):
 genresTable = Genre(path)
 films = Film(path)
 users = User(path)
+commentTable = Comment(path)
+
+tupleGenres = []
+genre_map = {}
+listGenres = genresTable.get_genres()
+for i in listGenres:
+    genre_map[i[1]] = i[0]
+    tupleGenres.append(i[1])
