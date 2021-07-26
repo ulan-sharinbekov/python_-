@@ -78,6 +78,13 @@ class Film:
         print(data)
         return data
 
+    def get_all_films(self):
+        cursor = self.connection.cursor()
+        cursor.execute(f"SELECT id, title FROM film")
+        data = cursor.fetchall()
+        print(data)
+        return data
+
     def get_films_by_genre(self, id, offset):
         cursor = self.connection.cursor()
         cursor.execute(f"SELECT f.*, g.title as genre_title FROM film as f INNER JOIN genre as g ON f.genre_id == g.id WHERE f.genre_id = {id} LIMIT 2 OFFSET {offset}")
@@ -122,6 +129,11 @@ class User:
     def login(self, username, password):
         cursor = self.connection.cursor()
         cursor.execute(f"SELECT * FROM user WHERE(username=='{username}' and password == '{password}')")
+        data = cursor.fetchall()
+        return data[0]
+    def get_users(self):
+        cursor = self.connection.cursor()
+        cursor.execute(f"SELECT * FROM user")
         data = cursor.fetchall()
         return data
 

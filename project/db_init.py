@@ -20,6 +20,7 @@ films = Film(path)
 users = User(path)
 commentTable = Comment(path)
 
+
 tupleGenres = []
 genre_map = {}
 listGenres = genresTable.get_genres()

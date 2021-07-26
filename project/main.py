@@ -1,7 +1,7 @@
 from db import fk_on
 from tkinter import *
 from tkinterUser import reg_window, log_window
-from db_init import users, films, convertToBinaryData
+from db_init import users, films, convertToBinaryData, commentTable
 
 
 fk_on()
@@ -10,7 +10,6 @@ fk_on()
 # films.get_films(2)
 window = Tk()
 window.geometry("1300x700")
-
 def login():
     log_window(window, users)
 

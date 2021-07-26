@@ -2,6 +2,8 @@ from tkinter import *
 from PIL import ImageTk, Image
 from db_init import write_file, genresTable, films, commentTable
 from tkinterCreate import create_genre_page, create_film_page
+import json
+from datetime import date as date_module, datetime
 
 def film_window(window, film_table, offset):
 
@@ -216,7 +218,21 @@ def exact_film(window, id):
         contentlbl.place(x=x + 230, y=y + 240)
 
         datelbl = Label(display, text=date, font=("Gotham", "12"))
-        datelbl.place(x=x + 1000, y=y + 200)
+        datelbl.place(x=x + 900, y=y + 200)
+
+    def create_comment():
+        content = entComment.get()
+        f = open("localstorage.json", "r")
+        row = f.read()
+        data = json.loads(row)
+
+        today = date_module.today()
+        now = datetime.now().time()  # time object
+        d1 = today.strftime("%d/%m/%Y")
+        d1 = str(d1)
+        now = str(now)
+
+        commentTable.create_comment(data["user_id"], id, content, d1+" "+now )
 
 
     display = Frame(window, height = 700, width=1300, bg="GREEN")
@@ -258,6 +274,13 @@ def exact_film(window, id):
     label1.image = test
     label1.place(x=110, y=100)
 
+
+    entComment = Entry(display, font=("Gotham", "12"), width=50)
+    entComment.place(x=330, y=200)
+
+    btnCreate = Button(display, text="Create", font=("Gotham", "12"), command=create_comment)
+    btnCreate.place(x=800, y=200)
+
     comments = commentTable.get_film_comment(id)
     for comment in comments:
         comment_id = comment[0]
@@ -267,5 +290,5 @@ def exact_film(window, id):
         date = comment[4]
         username = comment[5]
         show_comment(baseX, baseY, comment_id, user_id, film_id, content, date, username)
-        baseY=baseY+40
+        baseY=baseY+80
 

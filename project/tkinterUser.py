@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinterFilms import film_window
 from db_init import films
+import json
 
 def reg_window(window, user_table):
     def back():
@@ -82,7 +83,16 @@ def log_window(window, user_table):
         if un and ps:
 
             user = user_table.login(un, ps)
+
             if user:
+                f = open("localstorage.json", "r")
+                row = f.read()
+                data = json.loads(row)
+                data["user_id"] = user[0]
+                data = json.dumps(data)
+                print(data, type(data))
+                fw = open("localstorage.json", "w")
+                fw.write(data)
                 errlbl.config(text="OK", fg="GREEN")
                 film_window(window, films, 0)
             else:
